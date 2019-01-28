@@ -45,14 +45,14 @@ class User
      *
      * @ORM\Column(name="lastLogin", type="datetime", nullable=true)
      */
-    private $lastlogin = '0000-00-00 00:00:00';
+    private $lastlogin ;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="creationDate", type="datetime", nullable=false)
      */
-    private $creationdate = 'CURRENT_TIMESTAMP';
+    private $creationdate ;
 
     /**
      * @var integer
