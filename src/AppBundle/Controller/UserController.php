@@ -55,8 +55,8 @@ class UserController extends Controller
                 "password"=>$request->get('password')]
             );
 
-        if (!$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        if (empty($user)) {
+            return $this->userNotFound();
         }
         $user->setLastlogin(new \DateTime());
 
@@ -82,7 +82,7 @@ class UserController extends Controller
             ->find($request->get('userId'));
 
         if (empty($user)) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+            return $this->userNotFound();
         }
 
         $qb = $em->createQueryBuilder();
@@ -107,4 +107,8 @@ class UserController extends Controller
         );
     }
 
+    private function userNotFound()
+    {
+        return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+    }
 }
