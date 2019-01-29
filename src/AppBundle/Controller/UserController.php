@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use AppBundle\Entity\User;
 
 class UserController extends Controller
@@ -88,7 +89,7 @@ class UserController extends Controller
         $qb = $em->createQueryBuilder();
         $qb->select('count(c)')
             ->from('AppBundle:Commission', 'c')
-            ->where('c.iduser = '.$user->getId());
+            ->where('c.user = '.$user->getId());
         $commissions = $qb->getQuery()->getSingleScalarResult();
 
 
@@ -103,12 +104,52 @@ class UserController extends Controller
         return new JsonResponse(
             $formatted,
             Response::HTTP_OK,
-            ['generation_date' => date('Y-m-d H:i:s')]
+            ['generation_date' => date('Y-m-d H:i:s'),
+             'Access-Control-Allow-Origin' => '*' ]
         );
     }
 
+    /**
+     * @Route("/commissions/{userId}", name="get_user_commission")
+     * @Method({"GET"})
+     */
+    public function getCommissionsAction(Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+
+      /*  $qb = $em->createQueryBuilder();
+        $qb->select('c')
+            ->from('AppBundle:Commission', 'c')
+            ->where('c.iduser = '.$request->get('userId'));*/
+
+
+        $commissions = $em
+            ->getRepository('AppBundle:User')
+            ->find($request->get('userId'));
+        $commissions = $commissions->getCommissions();
+
+        //var_dump('qb', $commissions);
+
+        $commissions = $em
+            ->getRepository('AppBundle:Commission')
+            ->findBy(['user' => $request->get('userId')]);
+        var_dump('qb222', $commissions);
+
+        die;
+        if (empty($commissions)) {
+            return $this->userNotFound();
+        }
+
+    }
+
+
     private function userNotFound()
     {
-        return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        return new JsonResponse(
+            ['message' => 'User not found'],
+            Response::HTTP_NOT_FOUND,
+            ['generation_date' => date('Y-m-d H:i:s'),
+            'Access-Control-Allow-Origin' => '*' ]
+        );
     }
 }

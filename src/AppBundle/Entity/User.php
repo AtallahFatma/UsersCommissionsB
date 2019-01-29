@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -175,6 +176,31 @@ class User
         $this->id = $id;
     }
 
+    /**
+     * @return Commissions[]
+     */
+    public function getCommissions()
+    {
+        return $this->commissions;
+    }
+
+    /**
+     * @param Commissions[] $commissions
+     */
+    public function setCommissions($commissions)
+    {
+        $this->commissions = $commissions;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commission", mappedBy="user")
+     */
+    protected $commissions;
+
+    public function __construct()
+    {
+        $this->commissions = new ArrayCollection();
+    }
 
 }
 
