@@ -27,16 +27,40 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content)) {
+            $params = json_decode($content, true);
+        }
+
+        $user = $em
+            ->getRepository('AppBundle:User')
+            ->findOneBy(
+                ["email"=>$request->get('email')]
+            );
+
+        if (!empty($user)) {
+            return new JsonResponse(
+                ['message' => 'User exist'],
+                Response::HTTP_CONFLICT,
+                ['Access-Control-Allow-Origin' => '*' ]
+            );
+        }
+
         $user = new User();
-        $user->setEmail($request->get('email'));
-        $user->setName($request->get('name'));
+        $user->setEmail($params['email']);
+        $user->setName($params['name']);
+        $user->setPassword($params['password']);
         $user->setCreationdate(new \DateTime());
 
-        $em = $this->get('doctrine.orm.entity_manager');
+
         $em->persist($user);
         $em->flush();
         return new JsonResponse(
-            ['user' => $user->getName()],
+            [   'status' => Response::HTTP_CREATED,
+                'message' => 'OK',
+                'user' => $user->getName()],
             Response::HTTP_CREATED,
             ['generation_date' => date('Y-m-d H:i:s')]
         );
