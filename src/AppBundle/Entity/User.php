@@ -177,7 +177,7 @@ class User
     }
 
     /**
-     * @return Commissions[]
+     * @return ArrayCollection
      */
     public function getCommissions()
     {

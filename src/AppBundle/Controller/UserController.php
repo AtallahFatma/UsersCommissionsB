@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use FOS\RestBundle\Controller\Annotations as Rest;
 use AppBundle\Entity\User;
 
 class UserController extends Controller
@@ -73,11 +72,16 @@ class UserController extends Controller
     public function loginAction(Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content)) {
+            $params = json_decode($content, true);
+        }
         $user = $em
             ->getRepository('AppBundle:User')
             ->findOneBy(
-                ["email"=>$request->get('email'),
-                "password"=>$request->get('password')]
+                ["email"=> $params['email'],
+                "password"=> $params['password']]
             );
 
         if (empty($user)) {
@@ -141,29 +145,33 @@ class UserController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
 
-      /*  $qb = $em->createQueryBuilder();
-        $qb->select('c')
-            ->from('AppBundle:Commission', 'c')
-            ->where('c.iduser = '.$request->get('userId'));*/
-
-
-        $commissions = $em
+        $user = $em
             ->getRepository('AppBundle:User')
             ->find($request->get('userId'));
-        $commissions = $commissions->getCommissions();
 
-        //var_dump('qb', $commissions);
-
-        $commissions = $em
+        $listCommissions = $em
             ->getRepository('AppBundle:Commission')
-            ->findBy(['user' => $request->get('userId')]);
-        var_dump('qb222', $commissions);
+            ->findBy(array('user' => $user));
 
-        die;
-        if (empty($commissions)) {
+        if (empty($listCommissions)) {
             return $this->userNotFound();
         }
 
+        $output = array();
+        foreach ($listCommissions as $c) {
+            $output[] = [
+                'id' => $c->getId(),
+                'cashback' => $c->getCashback(),
+              //  $c->getDate()
+            ];
+        }
+
+        return new JsonResponse(
+            $output,
+            Response::HTTP_OK,
+            ['generation_date' => date('Y-m-d H:i:s'),
+                'Access-Control-Allow-Origin' => '*' ]
+        );
     }
 
 
