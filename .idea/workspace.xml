@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="cb2c6f03-78d7-49c5-885e-c77321bbfc81" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Controller/UserController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/UserController.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -306,7 +305,7 @@
       <workItem from="1548666160298" duration="2050000" />
       <workItem from="1548683516321" duration="8981000" />
       <workItem from="1548753091923" duration="34026000" />
-      <workItem from="1548940855772" duration="772000" />
+      <workItem from="1548940855772" duration="844000" />
     </task>
     <task id="LOCAL-00001" summary="push basic project">
       <created>1548617374315</created>
@@ -357,16 +356,23 @@
       <option name="project" value="LOCAL" />
       <updated>1548891499389</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="-add date to get commissions response&#10;-refacto GET Response format">
+      <created>1548941683814</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1548941683814</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61803000" />
+    <option name="totallyTimeSpent" value="61875000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2350" y="-200" width="1445" height="1324" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56864566" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.56829804" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -426,7 +432,8 @@
     <MESSAGE value="update user-commission relation(entity)" />
     <MESSAGE value="-accept json body&#10;-check if email exist before register" />
     <MESSAGE value="get user commissions API" />
-    <option name="LAST_COMMIT_MESSAGE" value="get user commissions API" />
+    <MESSAGE value="-add date to get commissions response&#10;-refacto GET Response format" />
+    <option name="LAST_COMMIT_MESSAGE" value="-add date to get commissions response&#10;-refacto GET Response format" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
