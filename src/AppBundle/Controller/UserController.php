@@ -60,8 +60,7 @@ class UserController extends Controller
             [   'status' => Response::HTTP_CREATED,
                 'message' => 'OK',
                 'user' => $user->getName()],
-            Response::HTTP_CREATED,
-            ['generation_date' => date('Y-m-d H:i:s')]
+            Response::HTTP_CREATED
         );
     }
 
@@ -91,6 +90,7 @@ class UserController extends Controller
 
         $em->persist($user);
         $em->flush();
+
         return new JsonResponse(
             ['message' => 'User connected',
             'userId'=> $user->getId()],
@@ -129,12 +129,7 @@ class UserController extends Controller
             'commissions' => $commissions,
         ];
 
-        return new JsonResponse(
-            $formatted,
-            Response::HTTP_OK,
-            ['generation_date' => date('Y-m-d H:i:s'),
-             'Access-Control-Allow-Origin' => '*' ]
-        );
+        return $this->jsonResponse($formatted, Response::HTTP_OK);
     }
 
     /**
@@ -162,16 +157,11 @@ class UserController extends Controller
             $output[] = [
                 'id' => $c->getId(),
                 'cashback' => $c->getCashback(),
-              //  $c->getDate()
+                'date' => $c->getDate()->format('Y-m-d')
             ];
         }
 
-        return new JsonResponse(
-            $output,
-            Response::HTTP_OK,
-            ['generation_date' => date('Y-m-d H:i:s'),
-                'Access-Control-Allow-Origin' => '*' ]
-        );
+        return $this->jsonResponse($output, Response::HTTP_OK);
     }
 
 
@@ -182,6 +172,16 @@ class UserController extends Controller
             Response::HTTP_NOT_FOUND,
             ['generation_date' => date('Y-m-d H:i:s'),
             'Access-Control-Allow-Origin' => '*' ]
+        );
+    }
+
+    private function jsonResponse($output, $status)
+    {
+        return new JsonResponse(
+            $output,
+            $status,
+            ['generation_date' => date('Y-m-d H:i:s'),
+                'Access-Control-Allow-Origin' => '*' ]
         );
     }
 }
